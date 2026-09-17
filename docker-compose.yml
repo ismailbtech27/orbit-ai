@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  ml-service:
+    build: 
+      context: ./ml_service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    # We train the model and start the API
+    command: sh -c "python train_pipeline.py && uvicorn main:app --host 0.0.0.0 --port 8000"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3001:3001"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - ml-service
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5173:4173"
+    depends_on:
+      - backend
