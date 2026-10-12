@@ -7,9 +7,13 @@ const User = sequelize.define('User', {
     allowNull: false,
     unique: true
   },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'USER' // USER, SOC_ANALYST, ADMIN
+  },
   status: {
     type: DataTypes.STRING,
-    defaultValue: 'ACTIVE' // ACTIVE, SUSPICIOUS, TEMPORARILY_RESTRICTED, ESCALATED, BLOCKED
+    defaultValue: 'ACTIVE' // ACTIVE, SUSPICIOUS, TEMPORARILY_RESTRICTED, ESCALATED, BLOCKED, RESTORED
   },
   restrictionExpiresAt: {
     type: DataTypes.DATE,
@@ -29,6 +33,14 @@ const User = sequelize.define('User', {
   },
   incidentId: {
     type: DataTypes.STRING,
+    allowNull: true
+  },
+  handler: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  handlerRestoredAt: {
+    type: DataTypes.DATE,
     allowNull: true
   }
 });

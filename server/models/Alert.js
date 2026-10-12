@@ -25,7 +25,7 @@ const Alert = sequelize.define('Alert', {
   },
   status: {
     type: DataTypes.STRING,
-    defaultValue: 'OPEN' // OPEN, RESOLVED, REJECTED, SIMULATED
+    defaultValue: 'OPEN' // OPEN, RESOLVED, REJECTED, SIMULATED, APPROVED
   },
   timestamp: {
     type: DataTypes.DATE,
@@ -54,6 +54,26 @@ const Alert = sequelize.define('Alert', {
   priority: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  currentStage: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  predictedStage: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  observedPath: {
+    type: DataTypes.TEXT, // Store as JSON string
+    allowNull: true
+  },
+  predictedPath: {
+    type: DataTypes.TEXT, // Store as JSON string
+    allowNull: true
+  },
+  pathDeviationDetected: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 

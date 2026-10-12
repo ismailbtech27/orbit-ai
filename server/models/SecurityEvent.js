@@ -36,6 +36,10 @@ const SecurityEvent = sequelize.define('SecurityEvent', {
     type: DataTypes.STRING,
     allowNull: true
   },
+  resourceClassification: {
+    type: DataTypes.STRING,
+    allowNull: true // NORMAL, CONFIDENTIAL, HIGHLY_CONFIDENTIAL
+  },
   analyzed: {
     type: DataTypes.BOOLEAN,
     defaultValue: false

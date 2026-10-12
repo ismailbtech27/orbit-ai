@@ -16,15 +16,26 @@ export const apiService = {
   },
 
   getAttackPath: async (alertId) => {
-    const res = await fetch(`/api/attack-path/${alertId}`);
+    const res = await fetch(`/api/alerts/${alertId}`);
     if (!res.ok) return null;
-    return res.json();
+    const alert = await res.json();
+    return {
+      observedStages: alert.observedPath ? JSON.parse(alert.observedPath) : [],
+      predictedStages: alert.predictedPath ? JSON.parse(alert.predictedPath) : [],
+      deviationDetected: alert.pathDeviationDetected
+    };
   },
 
   getRiskAssessment: async (alertId) => {
-    const res = await fetch(`/api/risk/${alertId}`);
+    const res = await fetch(`/api/alerts/${alertId}`);
     if (!res.ok) return null;
-    return res.json();
+    const alert = await res.json();
+    return {
+      riskScore: alert.riskScore,
+      riskLevel: alert.riskLevel,
+      severity: alert.severity,
+      priority: alert.priority
+    };
   },
 
   // Simulate manual analysis run from the UI (mostly legacy demo flow, 
@@ -36,12 +47,18 @@ export const apiService = {
   },
 
   approveResponse: async (alertId) => {
-    const res = await fetch(`/api/response/${alertId}/approve`, { method: 'POST' });
+    const res = await fetch(`/api/response/${alertId}/approve`, { 
+      method: 'POST',
+      headers: { 'x-user-role': 'ADMIN' }
+    });
     return res.json();
   },
 
   rejectResponse: async (alertId) => {
-    const res = await fetch(`/api/response/${alertId}/reject`, { method: 'POST' });
+    const res = await fetch(`/api/response/${alertId}/reject`, { 
+      method: 'POST',
+      headers: { 'x-user-role': 'ADMIN' }
+    });
     return res.json();
   },
   
